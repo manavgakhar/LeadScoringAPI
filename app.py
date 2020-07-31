@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template,redirect, request
 import json
+import requests
 
 
 class LeadScoreClassifier:
@@ -133,7 +134,7 @@ class LeadScoreClassifier:
     
         
     def ip(self):
-        import requests
+        
         ip= self.data['ip_address']
         url = "https://tony11-blacklist-ip-v1.p.rapidapi.com/ipv4/" + ip
         headers = {'x-rapidapi-host': "tony11-blacklist-ip-v1.p.rapidapi.com", 'x-rapidapi-key': "6350f9a380msh77e1b7f71166e09p169206jsn45bf3dc73018"}
@@ -183,17 +184,13 @@ def hello():
 def marks():
 	if request.method== 'POST':
 		try:
-		
 			result=request.form
 			data= dict(result)
 			user = LeadScoreClassifier(data)
 			
-			scorre= user.predict()
-		
+			scorre= user.predict()	
 		except:
-			scorre= " Invalid Input" 
-			
-		
+			scorre= "Invalid Input"
 
 	return render_template("index.html", score= scorre)
 
